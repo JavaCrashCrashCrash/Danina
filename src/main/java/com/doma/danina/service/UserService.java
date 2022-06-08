@@ -5,6 +5,7 @@ import com.doma.danina.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,15 +16,29 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class UserService {
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
+    @Transactional
     public boolean insert(String name, String pwd) {
-        User user = User.builder()
-                .name(name)
-                .pwd(pwd)
-                .build();
-        userRepository.save(user);
-        return true;
+        try {
+            String encodePassword = passwordEncoder.encode(pwd);
+            User user = User.builder()
+                    .name(name)
+                    .pwd(encodePassword)
+                    .build();
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println("err : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public String signIn(String name, String pwd) {
+        User user = userRepository.getUserByName(name);
+        boolean check = passwordEncoder.matches(pwd, user.getPwd());
+        return check ? "okay" : "fail";
     }
 
     @Transactional
