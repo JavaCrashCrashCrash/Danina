@@ -13,10 +13,11 @@ import javax.persistence.Id;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Writing {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String pwd;
+    private String title;
+    private String body;
     private String name;
 }
