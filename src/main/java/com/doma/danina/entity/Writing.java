@@ -10,12 +10,15 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Writing {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
-    @Column(length = 20)
-    private String pwd;
+    @Column(length = 50)
+    private String title;
+    @Column(length = 5000)
+    private String body;
     @Column(length = 20)
     private String name;
 }

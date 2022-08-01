@@ -16,11 +16,17 @@ public class UserController {
     @PostMapping("/user/insert")
     @CrossOrigin("*")
     public String insert(@RequestParam("name") String name, @RequestParam("pwd") String pwd) {
+        System.out.println("inser!");
         if (userService.insert(name, pwd)) {
             return name + " registered";
         } else {
             return "ID already exists";
         }
+    }
+
+    @PostMapping("/user/signin")
+    public String signIn(@RequestParam("name") String name, @RequestParam("pwd") String pwd) {
+        return userService.signIn(name, pwd);
     }
 
     @PostMapping("/user/modify")
